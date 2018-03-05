@@ -78,11 +78,13 @@ def train(params):
 
         # OPTIMIZER
         num_training_samples = count_text_lines(args.filenames_file)
-
+        
+        # Counting steps
         steps_per_epoch = np.ceil(num_training_samples / params.batch_size).astype(np.int32)
         num_total_steps = params.num_epochs * steps_per_epoch
         start_learning_rate = args.learning_rate
-
+        
+        # Set different learning rate
         boundaries = [np.int32((3/5) * num_total_steps), np.int32((4/5) * num_total_steps)]
         values = [args.learning_rate, args.learning_rate / 2, args.learning_rate / 4]
         learning_rate = tf.train.piecewise_constant(global_step, boundaries, values)
